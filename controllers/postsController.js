@@ -25,10 +25,10 @@ export const getPostById = async (req, res) => {
 
 export const createPost = async (req, res) => {  
   try {
-    const { title, image, content, category } = req.body;
+    const { title, image, content, category,house } = req.body;
     const result = await pool.query(
-      "INSERT INTO posts (title, image, content, category) VALUES ($1, $2, $3, $4) RETURNING *",
-      [title, image, content, category]
+      "INSERT INTO posts (title, image, content, category, house) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [title, image, content, category, house]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -40,10 +40,10 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, image, content, category } = req.body;
+    const { title, image, content, category,house } = req.body;
     const result = await pool.query(
-      "UPDATE posts SET title = $1, image = $2, content = $3, category = $4 WHERE id = $5 RETURNING *",
-      [title, image, content, category, id]
+      "UPDATE posts SET title = $1, image = $2, content = $3, category = $4, house = $5, WHERE id = $5 RETURNING *",
+      [title, image, content, category, house ,id]
     );
     if (result.rows.length === 0) return res.status(404).json({ error: "Post not found" });
     res.json(result.rows[0]);
