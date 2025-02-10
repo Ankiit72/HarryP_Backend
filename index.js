@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-e
+
 app.use(cors());
 app.use(express.json());
 
@@ -21,11 +21,11 @@ const startServer = async () => {
     console.log(" Database synced successfully");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
+      console.log(` Server is running on port ${PORT}`);
     });
 
   } catch (error) {
-    console.error("❌ Database sync error:", error);
+    console.error(" Database sync error:", error);
   }
 };
 

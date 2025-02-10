@@ -1,18 +1,38 @@
-import express from "express";
-import { 
-  getPosts, 
-  getPostById, 
-  createPost, 
-  updatePost, 
-  deletePost 
-} from "../controllers/postsController.js"; 
-const router = express.Router();
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
 
+const Post = sequelize.define("Post", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  category: {
+    type: DataTypes.ENUM("news", "character", "lifestyle"),
+    allowNull: false,
+  },
+  house: {
+    type: DataTypes.STRING(50),
+    allowNull: true, 
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  timestamps: false,
+});
 
-router.get("/", getPosts);      
-router.get("/:id", getPostById); 
-router.post("/", createPost);    
-router.put("/:id", updatePost);  
-router.delete("/:id", deletePost);
-
-export default router;
+export default Post;
