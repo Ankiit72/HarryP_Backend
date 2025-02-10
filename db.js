@@ -1,13 +1,29 @@
-import pkg from "pg";
+import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
-
 dotenv.config();
-const { Pool } = pkg;
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // Required for Neon database
+    },
+  },
+  logging: false, // Disable logging SQL queries (optional)
 });
 
-export default pool;
+// Test database connection
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ Database connected successfully.");
+  } catch (error) {
+    console.error("❌ Database connection error:", error);
+  }
+};
+
+testConnection();
+
+export default sequelize;
